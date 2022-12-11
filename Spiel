@@ -1,0 +1,76 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.Set;
+
+public class Spiel extends JFrame implements ActionListener {
+    JButton schereButton, steinButton, papierButton;
+    JTextField gegnerText;
+    JLabel gegnerLabel;
+
+    public static void main(String[] args) {
+        Spiel spiel = new Spiel();
+    }
+    
+    public Spiel() {
+        // GUI erstellen
+        setTitle("Schere Stein Papier");
+        setSize(500, 100);
+
+        schereButton = new JButton("Schere");
+        steinButton = new JButton("Stein");
+        papierButton = new JButton("Papier");
+        gegnerLabel = new JLabel("Gegner:");
+        gegnerText = new JTextField("                              ");
+        gegnerText.setEditable(false);        
+
+        add(schereButton);
+        add(steinButton);
+        add(papierButton);
+        add(gegnerLabel);
+        add(gegnerText);
+        
+        setLayout(new FlowLayout());
+
+        schereButton.addActionListener(this);
+        steinButton.addActionListener(this);
+        papierButton.addActionListener(this);
+        
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        // Auswahl des Spielers
+        JButton playerChoice = (JButton)e.getSource();
+
+        // Auswahl des Computers
+        int randomNumber = (int)(Math.random() * 3);
+        JButton computerChoice;
+
+        if (randomNumber == 0) {
+            computerChoice = schereButton;
+            gegnerText.setText("Schere");
+        } 
+        else if (randomNumber == 1) {
+            computerChoice = steinButton;
+            gegnerText.setText("Stein");
+        } 
+        else {
+            computerChoice = papierButton;
+            gegnerText.setText("Papier");       
+        }
+
+        // den Sieger festlegen
+        if (playerChoice == computerChoice) {
+            JOptionPane.showMessageDialog(this, "Unentschieden!");
+        } else if (playerChoice == schereButton && computerChoice == papierButton ||
+                   playerChoice == papierButton && computerChoice == steinButton ||
+                   playerChoice == steinButton && computerChoice == schereButton) {
+            JOptionPane.showMessageDialog(this, "Gewonnen!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Verloren!");
+        }
+    }
+
+
+}
